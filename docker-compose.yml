@@ -1,0 +1,29 @@
+services:
+  music-assistant-server:
+    image: ghcr.io/music-assistant/server:latest
+    container_name: music-assistant-server
+    environment:
+      LOG_LEVEL: info
+      SET_CONTAINER_TIMEZONE: 'true'
+      CONTAINER_TIMEZONE: America/Santiago
+      TZ: America/Santiago
+    devices:
+      - /dev:/dev
+    restart: unless-stopped
+    stop_grace_period: 60s
+    privileged: true
+    network_mode: host
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+      - NET_ADMIN
+      - NET_RAW
+    security_opt: # enables full access to /sys and /proc, still far better than privileged: true
+      - systempaths=unconfined
+      - apparmor=unconfined
+    volumes:
+      - ./data:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+      # Opcional: monta música local o un recurso de red previamente montado en el host, de solo lectura.
+      # - /ruta/a/tu/musica:/media:ro
