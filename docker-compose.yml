@@ -27,3 +27,5 @@ services:
       - /run/dbus:/run/dbus:ro
       # Opcional: monta música local o un recurso de red previamente montado en el host, de solo lectura.
       # - /ruta/a/tu/musica:/media:ro
+volumes:
+  data:
